@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  postgres-db:
+    image: 'postgres:latest'
+    ports:
+      - 15432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: dev-user-db
+    networks:
+      - postgres-network
+    volumes:
+      - ./db/postgres-data/:/var/lib/postgresql/data/
+  mongo:
+    image: mongo:latest
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo
+      MONGO_INITDB_ROOT_PASSWORD: 123
+    networks:
+      - mongo-network
+    volumes:
+      - ./db/mongo-data/:/data/db
+
+networks:
+  postgres-network:
+    driver: bridge
+  mongo-network:
+    driver: bridge
